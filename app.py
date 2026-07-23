@@ -11,6 +11,9 @@ while True:
     if question.lower() == "exit":
         break
 
+    #ルールベースでの回答
+    answer = faq(question)
+
     #AIの返答
     answer = ask_question(question)
     print("Bot：", answer)

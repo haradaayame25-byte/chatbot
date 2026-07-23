@@ -1,37 +1,17 @@
-from openai import OpenAI
+from ollama import chat
 
-client = OpenAI()
-
-def search_documents(question):
-    """
-    今はダミー
-    後でChromaDBなどの検索結果に置き換える
-    """
-    return """
-    静岡大学の授業は原則15回で実施されます。
-    シラバスは大学ポータルから確認できます。
-    """
-
+#AIが返答
 def ask_question(question):
 
-    context = search_documents(question)
-
-    prompt = f"""
-以下の資料を参考に回答してください。
-
-【資料】
-{context}
-
-【質問】
-{question}
-"""
-
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
+    response = chat(
+        model="llama3.2",  #AIモデルの指定
         messages=[
-            {"role":"system","content":"あなたは大学専用チャットボットです。"},
-            {"role":"user","content":prompt}
+            {
+                "role": "user",
+                "content": question
+            }
         ]
     )
 
-    return response.choices[0].message.content
+    #返事を取り出す
+    return response["message"]["content"]
